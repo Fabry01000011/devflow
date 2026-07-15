@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevFlow - Productividad para Programadores</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide@latest">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="app-title">
+                    <span class="title-icon">⚙️</span>
+                    DevFlow
+                </h1>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-item active" data-view="all">
+                    <span class="nav-icon">📋</span>
+                    <span>Todas</span>
+                </button>
+                <button class="nav-item" data-view="today">
+                    <span class="nav-icon">📅</span>
+                    <span>Hoy</span>
+                </button>
+                <button class="nav-item" data-view="sprint">
+                    <span class="nav-icon">🏃</span>
+                    <span>Sprint</span>
+                </button>
+                <button class="nav-item" data-view="backlog">
+                    <span class="nav-icon">📚</span>
+                    <span>Backlog</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="categories-section">
+                <h3 class="section-title">Categorías</h3>
+                <div class="category-tags">
+                    <button class="category-tag" data-category="bug">🐛 Bug</button>
+                    <button class="category-tag" data-category="feature">✨ Feature</button>
+                    <button class="category-tag" data-category="refactor">🔧 Refactor</button>
+                    <button class="category-tag" data-category="docs">📖 Docs</button>
+                    <button class="category-tag" data-category="devops">⚙️ DevOps</button>
+                </div>
+            </div>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="stats-sidebar">
+                <div class="stat-item">
+                    <span class="stat-label">Activas</span>
+                    <span class="stat-value" id="activeSidebarCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Completadas</span>
+                    <span class="stat-value" id="completedSidebarCount">0</span>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h2 id="viewTitle">Todas las Tareas</h2>
+                    <p id="viewSubtitle" class="subtitle"></p>
+                </div>
+
+                <div class="header-right">
+                    <button class="ai-suggest-btn" id="aiSuggestBtn" title="Sugerencias con IA">
+                        ✨ IA
+                    </button>
+                    <div class="search-box">
+                        <input
+                            type="text"
+                            id="searchInput"
+                            class="search-input"
+                            placeholder="Buscar tareas..."
+                        >
+                    </div>
+                </div>
+            </header>
+
+            <!-- Input Section -->
+            <div class="input-section">
+                <div class="input-wrapper">
+                    <textarea
+                        id="taskInput"
+                        class="task-input"
+                        placeholder="Describe tu tarea... (/ para comandos)"
+                        rows="2"
+                    ></textarea>
+                    <div class="input-options">
+                        <div class="priority-selector">
+                            <label>Prioridad:</label>
+                            <select id="prioritySelect">
+                                <option value="low">Baja</option>
+                                <option value="medium" selected>Media</option>
+                                <option value="high">Alta</option>
+                                <option value="urgent">Urgente</option>
+                            </select>
+                        </div>
+                        <div class="time-selector">
+                            <label>Tiempo:</label>
+                            <select id="timeSelect">
+                                <option value="15">15 min</option>
+                                <option value="30" selected>30 min</option>
+                                <option value="60">1 hora</option>
+                                <option value="120">2 horas</option>
+                                <option value="480">Medio día</option>
+                            </select>
+                        </div>
+                        <button id="addBtn" class="add-btn">
+                            Agregar Tarea
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters & Sort -->
+            <div class="filters-section">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">Todas</button>
+                    <button class="filter-btn" data-filter="active">Activas</button>
+                    <button class="filter-btn" data-filter="completed">Completadas</button>
+                    <button class="filter-btn" data-filter="blocked">Bloqueadas</button>
+                </div>
+
+                <div class="sort-group">
+                    <select id="sortSelect">
+                        <option value="priority-desc">Prioridad (Alto → Bajo)</option>
+                        <option value="time-asc">Tiempo (Menor → Mayor)</option>
+                        <option value="created-desc">Más recientes</option>
+                        <option value="duedate">Fecha límite</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tasks List -->
+            <section class="tasks-section">
+                <ul id="taskList" class="task-list">
+                </ul>
+            </section>
+
+            <!-- AI Suggestions Panel -->
+            <div id="aiPanel" class="ai-panel hidden">
+                <div class="ai-panel-header">
+                    <h3>💡 Sugerencias Inteligentes</h3>
+                    <button class="close-btn" id="closeAiBtn">×</button>
+                </div>
+                <div class="ai-panel-content">
+                    <div id="aiSuggestions" class="ai-suggestions">
+                        <div class="suggestion">
+                            <p>🎯 Agrupar tareas por proyecto</p>
+                        </div>
+                        <div class="suggestion">
+                            <p>⏱️ Dedicar 25 min a refactoring</p>
+                        </div>
+                        <div class="suggestion">
+                            <p>🔴 Bug crítico detectado - prioridad!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
