@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(git config *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m 'feat: Initial DevFlow - Productivity app for developers 2026 *)",
+      "Bash(git commit -m 'chore: Update Claude Code settings configuration *)"
     ]
   }
 }
